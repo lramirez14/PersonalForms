@@ -1,0 +1,133 @@
+﻿@model PersonalForms.Models.PersonalViewModel
+@{
+    ViewBag.Title = "Crear Usuario";
+}
+
+<br />
+<br />
+
+<div class="container" >
+    <!--Identificación-->
+    <div class="form-group row offset-md-2">
+        <label id="Identification" class="col-xs-4 col-md-4 col-lg-4">Identificación:</label>
+        <div class="col-xs-9 col-md-9 col-lg-9">
+            <input type="text" class="form-control" id="Personal_Identification" name="Personal_Identification" />
+        </div>
+    </div>
+    <!--Nombres-->
+    <div class="form-group row">
+        <label id="FirstName" class="col-xs-4 col-md-4 col-lg-4">Nombres: </label>
+        <div class="col-xs-9 col-md-9 col-lg-9">
+            <input type="text" class="form-control" id="Personal_FirstName" name="Personal_FirstName" />
+        </div>
+    </div>
+    <!--Apellidos-->
+    <div class="form-group row">
+        <label id="LastName" class="col-xs-4 col-md-4 col-lg-4">Apellidos: </label>
+        <div class="col-xs-9 col-md-9 col-lg-9">
+            <input type="text" class="form-control" id="Personal_LastName" name="Personal_LastName" />
+        </div>
+    </div>
+    <!--Teléfono-->
+    <div class="form-group row">
+        <label id="Phone" class="col-xs-4 col-md-4 col-lg-4">Telefono: </label>
+        <div class="col-xs-9 col-md-9 col-lg-9">
+            <input type="text" class="form-control" id="Personal_Phone" name="Personal_Phone" />
+        </div>
+    </div>
+    <!--Botones-->
+    <div class="form-group row">
+        <form action="/Home/AddUser/" id="Addform" method="post">
+            <div class="offset-xs-4 col-xs-8">
+                <button type="button" class="btn btn-primary" id="BtnAceptar">Aceptar</button>
+                <button type="button" class="btn btn-danger" id="BtnCancelar">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootbox.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#BtnCancelar').click(function () {
+            var url = "/Home/Index/"
+            $(location).attr('href', url);
+        });
+        $("#BtnAceptar").click(function () {
+            var user = Object();
+
+            user.Personal_Identification = $('#Personal_Identification').val();
+            if (user.Personal_Identification == '') {
+                bootbox.alert('La identificación es requerida');
+                return;
+            }
+
+            user.Personal_FirstName = $('#Personal_FirstName').val();
+            if (user.Personal_FirstName == '') {
+                bootbox.alert('El Nombre es requerido');
+                return;
+            }
+
+            user.Personal_LastName = $('#Personal_LastName').val();
+            if (user.Personal_LastName == '') {
+                bootbox.alert('El Apellido es requerido');
+                return;
+            }
+
+            user.Personal_Phone = $('#Personal_Phone').val();
+            if (user.Personal_Phone == '') {
+                bootbox.alert('El Teléfono es requerido');
+                return;
+            }
+
+            bootbox.confirm({
+                title: "Confirmación",
+                message: "¿Desea ingresar el registro en el sistema?",
+                buttons: {
+                    confirm: {
+                        label: '<i class="fa fa-times"></i> Confirmar'
+                    },
+                    cancel: {
+                        label: '<i class="fa fa-check"></i> Cancelar'
+                    }
+                },
+                callback: function (result) {
+                    console.log('Registro del llamado ' + result);
+                    if (result) {
+
+                        $.ajax({
+                            cache: false,
+                            async: true,
+                            type: "POST",
+                            url: '/Home/AddUser',
+                            data: { user },
+                            format: 'json',
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                                if (data == 1) {
+                                    bootbox.alert('Se registró el usuario satisfactoriamente.');
+                                    var url = "/Home/Index/"
+                                    $(location).attr('href', url);
+                                }
+                                if (data == 0) {
+                                    bootbox.alert('Error al crear usuario');                                    
+                                }
+                                if (data == 2) {
+                                    bootbox.alert('Cédula del usuario Existente! Seleccione la opción modificar');
+                                }
+                                
+                                
+                                
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+</script>

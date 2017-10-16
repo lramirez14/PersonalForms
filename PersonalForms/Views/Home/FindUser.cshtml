@@ -1,0 +1,60 @@
+﻿@model PersonalForms.Models.PersonalViewModel
+
+<br />
+<br />
+
+<div class="container">
+    <!--Identificación-->
+    <div class="form-group row">
+        <input type="hidden" value="@Model.Personal_Id.ToString()" id="Personal_Id" />
+    </div>
+    <!--Identificación-->
+    <div class="form-group row">
+        <label id="Identification" class="col-xs-4 col-md-4 col-lg-4">Identificación:</label>
+        <div class="col-xs-9 col-md-9 col-lg-9">
+            <input type="text" class="form-control" readonly="readonly" id="Personal_Identification" name="Personal_Identification" value="@Model.Personal_Identification" />
+        </div>
+    </div>
+    <!--Nombres-->
+    <div class="form-group row">
+        <label id="FirstName" class="col-xs-4 col-md-4 col-lg-4">Nombres: </label>
+        <div class="col-xs-9 col-md-9 col-lg-9">
+            <input type="text" class="form-control" readonly="readonly" id="Personal_FirstName" name="Personal_FirstName" value="@Model.Personal_FirstName" />
+        </div>
+    </div>
+    <!--Apellidos-->
+    <div class="form-group row">
+        <label id="LastName" class="col-xs-4 col-md-4 col-lg-4">Apellidos: </label>
+        <div class="col-xs-9 col-md-9 col-lg-9">
+            <input type="text" class="form-control" readonly="readonly" id="Personal_LastName" name="Personal_LastName" value="@Model.Personal_LastName" />
+        </div>
+    </div>
+    <!--Teléfono-->
+    <div class="form-group row">
+        <label id="Phone" class="col-xs-4 col-md-4 col-lg-4">Telefono: </label>
+        <div class="col-xs-9 col-md-9 col-lg-9">
+            <input type="text" class="form-control" readonly="readonly" id="Personal_Phone" name="Personal_Phone" value="@Model.Personal_Phone" />
+        </div>
+    </div>
+    <!--Botones-->
+    <div class="form-group row">
+        <form action="/Home/UpdateUser/" id="Addform" method="post">
+            <div class="offset-xs-4 col-xs-8">
+                <button type="button" class="btn btn-primary" id="BtnRegresar">Regresar</button>                
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootbox.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#BtnRegresar').click(function () {
+            var url = "../Index"
+            $(location).attr('href', url);
+        });
+    });
+</script>

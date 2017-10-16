@@ -1,0 +1,160 @@
+﻿@using PersonalForms.Models
+@model List<PersonalForms.Models.PersonalViewModel>
+@{
+    ViewBag.Title = "Usuarios";
+}
+
+<br />
+<br />
+<link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+<style>
+    p {
+        text-align: center;
+    }
+
+    .ocultar {
+        display: none;
+    }
+
+    #BtnModificar, #BtnConsultar, #BtnAgregar {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+    }
+</style>
+@*<div class="container">
+
+    </div>*@
+<div class="container">
+
+    <table class="table table-bordered table-striped table-hover table-responsive">
+        <tr class="col-lg-12 col-md-12 col-xs-12">
+            <!--<button type="button" class="btn btn-success" id="BtnAgregar"></button>-->
+            <td colspan="6">
+                <a id="BtnAgregar" class="btn btn-success" href="#">
+                    <span class="glyphicon glyphicon-user"><p>Agregar</p></span>
+                </a>
+            </td>
+
+        </tr>
+        <tr>
+            <th class="ocultar"></th>
+            <th><p>Cédula</p></th>
+            <th><p>Nombres</p></th>
+            <th><p>Apellidos</p></th>
+            <th><p>Teléfono</p></th>
+            <th colspan="2"><p>Acciones</p></th>
+        </tr>
+        @if ((Model.Count() > 0) && (Model != null))
+        {
+            var count = 1;
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td class="ocultar"><input type="hidden" value="@user.Personal_Id.ToString()" id="@string.Format("Id_{0}",count)" /></td>
+                    <td><p>@user.Personal_Identification</p></td>
+                    <td><p>@user.Personal_FirstName</p></td>
+                    <td><p>@user.Personal_LastName</p></td>
+                    <td><p>@user.Personal_Phone</p></td>
+                    <td>
+                        <a id="BtnModificar" class="btn btn-primary modificar" href="#" onclick="UpdateUser(@count)">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a id="BtnConsultar" class="btn btn-info" href="#" onclick="FindUser(@count)">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                    </td>
+                </tr>
+                count++;
+            }
+        }
+        else
+        {
+            <span class="alert alert-info"><p>No hay usuarios registrados</p></span>
+        }
+    </table>
+
+
+</div>
+
+@*<div class="container">
+        <!--Identificación-->
+        <div class="form-group row">
+            <label id="Identification" class="col-xs-4 col-md-4 col-lg-4">Identificación:</label>
+            <div class="col-xs-9 col-md-9 col-lg-9">
+                <input type="text" class="form-control" id="P_Identification" name="P_Identification" />
+            </div>
+        </div>
+        <!--Nombres-->
+        <div class="form-group row">
+            <label id="FirstName" class="col-xs-4 col-md-4 col-lg-4">Nombres: </label>
+            <div class="col-xs-9 col-md-9 col-lg-9">
+                <input type="text" class="form-control" id="P_FirstName" name="P_FirstName" />
+            </div>
+        </div>
+        <!--Apellidos-->
+        <div class="form-group row">
+            <label id="LastName" class="col-xs-4 col-md-4 col-lg-4">Apellidos: </label>
+            <div class="col-xs-9 col-md-9 col-lg-9">
+                <input type="text" class="form-control" id="P_LastName" name="P_LastName" />
+            </div>
+        </div>
+        <!--Teléfono-->
+        <div class="form-group row">
+            <label id="Phone" class="col-xs-4 col-md-4 col-lg-4">Telefono: </label>
+            <div class="col-xs-9 col-md-9 col-lg-9">
+                <input type="text" class="form-control" id="P_Phone" name="P_Phone" />
+            </div>
+        </div>
+        <!--Botones-->
+        <div class="form-group row">
+            <form action="/Home/AddUser/" id="Addform" method="post">
+                <div class="offset-xs-4 col-xs-8">
+                    <button type="button" class="btn btn-primary" id="BtnAceptar">Aceptar</button>
+                    <button type="button" class="btn btn-danger" id="BtnCancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>*@
+
+<script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootbox.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+<script type="text/javascript">
+
+    $("#BtnAgregar").click(function () {
+        var url = "/Home/AddUser"
+        $(location).attr('href', url);
+    });
+    function UpdateUser(count) {        
+        var value = $("#Id_"+count).val();        
+        if (value != "") {
+            window.location = '/Home/UpdateUser/?Id=' + value;
+        }
+        //var Id = $('.ocultar').val();
+        //window.alert(Id);
+    }
+    function FindUser(count){
+        var value = $("#Id_"+count).val();        
+        if (value != "") {
+            window.location = '/Home/FindUser/?Id=' + value;
+        }
+    }
+
+    //$("#BtnModificar").click(function () {
+    //    var Id = $('#Personal_Id').val();
+    //    window.alert(Id);
+    //    if (Id != '')
+    //    {
+    //        window.location = '../Home/UpdateUser/?Id=' + Id;
+
+    //    }
+
+    //});
+
+</script>
